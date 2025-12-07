@@ -99,6 +99,40 @@ if(IMGUI_WITH_BACKEND)
   endif()
 endif()
 
+# FreeType font rendering support
+set(FREETYPE_DIR ${IMGUI_SOURCE_DIR}/misc/freetype)
+if(IMGUI_ENABLE_FREETYPE)
+  message(STATUS "[ImGui] FreeType font rendering enabled")
+  
+  # Download CPM.cmake
+  set(CPM_DOWNLOAD_VERSION 0.40.2)
+  set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+  if(NOT EXISTS ${CPM_DOWNLOAD_LOCATION})
+    message(STATUS "[ImGui] Downloading CPM.cmake to ${CPM_DOWNLOAD_LOCATION}")
+    file(DOWNLOAD
+      https://github.com/cpm-cmake/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake
+      ${CPM_DOWNLOAD_LOCATION}
+    )
+  endif()
+  include(${CPM_DOWNLOAD_LOCATION})
+  
+  # Fetch FreeType via CPM
+  CPMAddPackage(
+    NAME freetype
+    GIT_TAG VER-2-13-3
+    GITHUB_REPOSITORY freetype/freetype
+    OPTIONS
+      "FT_DISABLE_ZLIB TRUE"
+      "FT_DISABLE_BZIP2 TRUE"
+      "FT_DISABLE_PNG TRUE"
+      "FT_DISABLE_HARFBUZZ TRUE"
+      "FT_DISABLE_BROTLI TRUE"
+  )
+  
+  list(APPEND PUBLIC_H_FILES ${FREETYPE_DIR}/imgui_freetype.h)
+  list(APPEND PUBLIC_CXX_FILES ${FREETYPE_DIR}/imgui_freetype.cpp)
+endif()
+
 set(PROJECT_FILES
   ${PUBLIC_H_FILES}
   ${PUBLIC_CXX_FILES}
@@ -137,6 +171,11 @@ target_include_directories(${PROJECT_NAME}
     $<INSTALL_INTERFACE:include> # ${CMAKE_INSTALL_PREFIX}/include
 )
 target_link_libraries(${PROJECT_NAME} INTERFACE ${IMGUI_INTERFACE_LIBS})
+
+if(IMGUI_ENABLE_FREETYPE)
+  target_link_libraries(${PROJECT_NAME} PRIVATE freetype)
+  target_compile_definitions(${PROJECT_NAME} PUBLIC IMGUI_ENABLE_FREETYPE)
+endif()
 
 if(IMGUI_BACKEND_DX12)
   target_link_libraries(${PROJECT_NAME} PRIVATE d3d12 dxgi)

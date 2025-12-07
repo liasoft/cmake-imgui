@@ -45,3 +45,8 @@ cmake_dependent_option(IMGUI_BACKEND_DX12
   "Set to ON to include DX12 backend files." OFF
   "IMGUI_WITH_BACKEND" ON
 )
+
+option(IMGUI_ENABLE_FREETYPE
+  "Set to ON to enable FreeType font rendering for better rasterization."
+  OFF
+)
