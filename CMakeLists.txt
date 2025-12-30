@@ -187,7 +187,7 @@ target_compile_options(${PROJECT_NAME}
     $<$<CXX_COMPILER_ID:MSVC>:$<$<CONFIG:Debug>:/MTd>>
     $<$<CXX_COMPILER_ID:MSVC>:$<$<CONFIG:MinSizeRel>:/MT>>
     $<$<CXX_COMPILER_ID:MSVC>:$<$<CONFIG:Release>:/MT>>
-    $<$<CXX_COMPILER_ID:MSVC>:$<$<CONFIG:RelWithDebInfo>:/MTd>>
+    $<$<CXX_COMPILER_ID:MSVC>:$<$<CONFIG:RelWithDebInfo>:/MT>>
 )
 
 if(MSVC)
