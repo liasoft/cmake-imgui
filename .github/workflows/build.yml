@@ -34,10 +34,10 @@ jobs:
         working-directory: examples
         run: |
           cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.config }}
-          cmake --build build --config ${{ matrix.config }} --target win32_dx9
+          cmake --build build --config ${{ matrix.config }} --target imgui_app_win32_dx9
 
       - name: Build Examples (DX11)
         working-directory: examples
         run: |
           cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.config }}
-          cmake --build build --config ${{ matrix.config }} --target win32_dx11
+          cmake --build build --config ${{ matrix.config }} --target imgui_app_win32_dx11
