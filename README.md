@@ -54,7 +54,7 @@ In the `examples` dir there are multiple cmake scripts to consume the previously
 
 CMake's `package_config` will automatically generate a special target `ImGui::imgui` if found, that can be used on the consuming of package through `target_link_libraries`. Here is a minimal example app:
 ```cmake
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.20)
 project(my_imgui_app LANGUAGES CXX)
 set(ImGui_DIR "${ImGui_INSTALL_DIR}/lib/cmake")
 list(APPEND CMAKE_PREFIX_PATH ${ImGui_DIR})

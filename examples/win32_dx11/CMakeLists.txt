@@ -2,7 +2,7 @@
 # ImGui Example App
 # MSVC app using Direct3D11. Similar approach should follow on other platforms.
 #
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.20)
 
 
 ##################################################################################################################
