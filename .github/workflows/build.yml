@@ -22,19 +22,22 @@ jobs:
           submodules: recursive
 
       - name: Configure CMake
-        run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.config }}
+        run: cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.config }} -DIMGUI_WITH_BACKEND=ON -DIMGUI_BACKEND_DX9=ON -DIMGUI_BACKEND_DX11=ON
 
       - name: Build Library
         run: cmake --build build --config ${{ matrix.config }}
 
+      - name: Install Library
+        run: cmake --install build --config ${{ matrix.config }}
+
       - name: Build Examples (DX9)
         working-directory: examples
         run: |
-          cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.config }} -DIMGUI_WITH_BACKEND=ON -DIMGUI_BACKEND_DX9=ON
+          cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.config }}
           cmake --build build --config ${{ matrix.config }} --target win32_dx9
 
       - name: Build Examples (DX11)
         working-directory: examples
         run: |
-          cmake -B build_dx11 -DCMAKE_BUILD_TYPE=${{ matrix.config }} -DIMGUI_WITH_BACKEND=ON -DIMGUI_BACKEND_DX11=ON
-          cmake --build build_dx11 --config ${{ matrix.config }} --target win32_dx11
+          cmake -B build -DCMAKE_BUILD_TYPE=${{ matrix.config }}
+          cmake --build build --config ${{ matrix.config }} --target win32_dx11
